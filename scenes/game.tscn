@@ -1,0 +1,72 @@
+[gd_scene load_steps=7 format=3 uid="uid://bc6iuxgrfx20n"]
+
+[ext_resource type="Script" path="res://scripts/game.gd" id="1_b8hym"]
+[ext_resource type="Texture2D" uid="uid://dvlq06jh5wvbg" path="res://sprites/skybox_sideHills.png" id="1_k8n2g"]
+[ext_resource type="Texture2D" uid="uid://dv2d8ysl3peqv" path="res://sprites/dirt_grass.png" id="2_5vmwn"]
+[ext_resource type="PackedScene" uid="uid://4sy8qjtfm26q" path="res://scenes/player.tscn" id="3_j0xab"]
+[ext_resource type="PackedScene" uid="uid://dq0kmlkp8d18s" path="res://scenes/trunk.tscn" id="4_11tqi"]
+[ext_resource type="Texture2D" uid="uid://bk206jptl7y6x" path="res://sprites/Grave.png" id="6_5vdeh"]
+
+[node name="Game" type="Node"]
+script = ExtResource("1_b8hym")
+trunk_scene = ExtResource("4_11tqi")
+
+[node name="Background" type="Sprite2D" parent="."]
+position = Vector2(335, 632)
+scale = Vector2(2.58984, 2.81131)
+texture = ExtResource("1_k8n2g")
+
+[node name="Ground" type="Node" parent="."]
+
+[node name="Tile" type="Sprite2D" parent="Ground"]
+position = Vector2(160, 1216)
+texture = ExtResource("2_5vmwn")
+
+[node name="Tile3" type="Sprite2D" parent="Ground"]
+position = Vector2(32, 1216)
+texture = ExtResource("2_5vmwn")
+
+[node name="Tile4" type="Sprite2D" parent="Ground"]
+position = Vector2(416, 1216)
+texture = ExtResource("2_5vmwn")
+
+[node name="Tile5" type="Sprite2D" parent="Ground"]
+position = Vector2(544, 1216)
+texture = ExtResource("2_5vmwn")
+
+[node name="Tile6" type="Sprite2D" parent="Ground"]
+position = Vector2(672, 1216)
+texture = ExtResource("2_5vmwn")
+
+[node name="Tile2" type="Sprite2D" parent="Ground"]
+position = Vector2(288, 1216)
+texture = ExtResource("2_5vmwn")
+
+[node name="Player" parent="." instance=ExtResource("3_j0xab")]
+z_index = 10
+position = Vector2(576, 928)
+
+[node name="FirstTrunkPosition" type="Marker2D" parent="."]
+position = Vector2(352, 1025)
+scale = Vector2(-35137.6, 848293)
+
+[node name="Grave" type="Sprite2D" parent="."]
+visible = false
+z_index = 10
+position = Vector2(576, 1056)
+texture = ExtResource("6_5vdeh")
+
+[node name="TimeLeft" type="ProgressBar" parent="."]
+z_index = 10
+offset_left = 192.0
+offset_top = 128.0
+offset_right = 512.0
+offset_bottom = 192.0
+max_value = 5.0
+value = 5.0
+show_percentage = false
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 3.0
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

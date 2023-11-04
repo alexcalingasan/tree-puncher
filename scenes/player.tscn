@@ -1,0 +1,78 @@
+[gd_scene load_steps=10 format=3 uid="uid://4sy8qjtfm26q"]
+
+[ext_resource type="Texture2D" uid="uid://b24nx4i3lpugs" path="res://sprites/character/zombie_head.png" id="1_7mgkb"]
+[ext_resource type="Script" path="res://scripts/player.gd" id="1_8pwbt"]
+[ext_resource type="Texture2D" uid="uid://cjqfhfjbmql7p" path="res://sprites/character/zombie_body.png" id="2_gvb3y"]
+[ext_resource type="Texture2D" uid="uid://dprsbdxv5oqu" path="res://sprites/character/zombie_arm.png" id="3_dk7nr"]
+[ext_resource type="Texture2D" uid="uid://bppqc6sdpwvxe" path="res://sprites/character/zombie_leg.png" id="4_gukjp"]
+
+[sub_resource type="Animation" id="Animation_pla6r"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Arm:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
+[sub_resource type="Animation" id="Animation_g8bmf"]
+resource_name = "punch"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Arm:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [0.0, 1.91986, 0.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_tgby1"]
+_data = {
+"RESET": SubResource("Animation_pla6r"),
+"punch": SubResource("Animation_g8bmf")
+}
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_pabal"]
+size = Vector2(64, 181.333)
+
+[node name="Player" type="Area2D"]
+scale = Vector2(1.5, 1.5)
+script = ExtResource("1_8pwbt")
+
+[node name="Head" type="Sprite2D" parent="."]
+texture = ExtResource("1_7mgkb")
+
+[node name="Body" type="Sprite2D" parent="."]
+position = Vector2(0, 62)
+texture = ExtResource("2_gvb3y")
+
+[node name="Leg" type="Sprite2D" parent="."]
+position = Vector2(0, 120)
+texture = ExtResource("4_gukjp")
+
+[node name="Arm" type="Sprite2D" parent="."]
+position = Vector2(0, 42.6667)
+texture = ExtResource("3_dk7nr")
+offset = Vector2(0, 30)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_tgby1")
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 58.6667)
+shape = SubResource("RectangleShape2D_pabal")
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
